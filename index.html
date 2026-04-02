@@ -1,37 +1,520 @@
-import { Toaster } from "@/components/ui/sonner";
-import { TooltipProvider } from "@/components/ui/tooltip";
-import NotFound from "@/pages/NotFound";
-import { Route, Switch } from "wouter";
-import ErrorBoundary from "./components/ErrorBoundary";
-import { ThemeProvider } from "./contexts/ThemeContext";
-import Home from "./pages/Home";
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LIA Brand Universe</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@300;400;600&family=Noto+Sans+JP:wght@400;500&family=Cormorant+Garamond:wght@400;500;600&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
+        html {
+            scroll-behavior: smooth;
+        }
 
-function Router() {
-  return (
-    <Switch>
-      <Route path={"/"} component={Home} />
-      <Route path={"/404"} component={NotFound} />
-      {/* Final fallback route */}
-      <Route component={NotFound} />
-    </Switch>
-  );
-}
+        body {
+            background-color: #08080f;
+            color: #e8e6e0;
+            font-family: 'Noto Sans JP', sans-serif;
+            line-height: 1.6;
+        }
 
-function App() {
-  return (
-    <ErrorBoundary>
-      <ThemeProvider
-        defaultTheme="dark"
-      >
-        <TooltipProvider>
-          <Toaster />
-          <Router />
-        </TooltipProvider>
-      </ThemeProvider>
-    </ErrorBoundary>
-  );
-}
+        h1, h2, h3, h4, h5, h6 {
+            font-family: 'Noto Serif JP', serif;
+        }
 
-export default App;
+        .brand-name {
+            font-family: 'Cormorant Garamond', serif;
+        }
 
+        .container {
+            width: 100%;
+            margin: 0 auto;
+            padding: 0 1rem;
+        }
+
+        @media (min-width: 640px) {
+            .container {
+                padding: 0 1.5rem;
+            }
+        }
+
+        @media (min-width: 1024px) {
+            .container {
+                padding: 0 2rem;
+                max-width: 1280px;
+            }
+        }
+
+        /* Animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .fade-in-up {
+            animation: fadeInUp 0.8s ease-out forwards;
+        }
+
+        .opacity-transition {
+            transition: opacity 1s ease-out;
+        }
+
+        .opacity-0 {
+            opacity: 0;
+        }
+
+        .opacity-100 {
+            opacity: 1;
+        }
+
+        /* Divider */
+        .divider-line {
+            border-top: 1px solid rgba(232, 230, 224, 0.15);
+        }
+
+        /* Hover Effects */
+        .hover-fade {
+            transition: opacity 0.3s ease-out;
+        }
+
+        .hover-fade:hover {
+            opacity: 0.85;
+        }
+
+        /* HERO Section */
+        #hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 5rem 1rem;
+        }
+
+        .hero-content {
+            max-width: 48rem;
+            text-align: center;
+        }
+
+        .hero-content h1 {
+            font-size: clamp(2.5rem, 8vw, 4.5rem);
+            font-weight: 300;
+            line-height: 1.2;
+            letter-spacing: -0.02em;
+            margin-bottom: 2rem;
+        }
+
+        .hero-content .subtitle {
+            font-size: clamp(1.25rem, 4vw, 1.5rem);
+            font-family: 'Noto Serif JP', serif;
+            font-weight: 300;
+            line-height: 1.6;
+            color: #8b8983;
+            margin-bottom: 3rem;
+        }
+
+        .hero-content .description {
+            font-size: 0.875rem;
+            line-height: 1.8;
+            color: #8b8983;
+            max-width: 32rem;
+            margin: 0 auto;
+        }
+
+        /* THREE WORLDS Section */
+        #three-worlds {
+            padding: 6rem 1rem;
+        }
+
+        .three-worlds-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+            max-width: 1280px;
+            margin: 0 auto;
+        }
+
+        .card {
+            padding: 2rem;
+            border: 1px solid rgba(232, 230, 224, 0.15);
+            border-radius: 2px;
+            transition: all 0.3s ease-out;
+        }
+
+        .card:hover {
+            opacity: 0.85;
+        }
+
+        .card-header {
+            margin-bottom: 1.5rem;
+        }
+
+        .card-category {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.15em;
+            color: #8b8983;
+            margin-bottom: 1rem;
+            display: block;
+        }
+
+        .card-title {
+            font-size: 1.875rem;
+            font-family: 'Cormorant Garamond', serif;
+            font-weight: 300;
+        }
+
+        .card-content {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .card-subtitle {
+            font-size: 0.875rem;
+            line-height: 1.6;
+            color: #8b8983;
+        }
+
+        .card-description {
+            font-size: 1.125rem;
+            line-height: 1.6;
+        }
+
+        .card-note {
+            font-size: 0.75rem;
+            color: #8b8983;
+        }
+
+        .card-footer {
+            padding-top: 1rem;
+            border-top: 1px solid rgba(232, 230, 224, 0.15);
+            margin-top: 1rem;
+        }
+
+        .card-link {
+            display: inline-block;
+            margin-top: 1rem;
+            font-size: 0.875rem;
+            color: #e8e6e0;
+            text-decoration: none;
+            transition: opacity 0.3s ease-out;
+        }
+
+        .card-link:hover {
+            opacity: 0.7;
+        }
+
+        /* CRONA'LIA Card */
+        .card-crona {
+            background: linear-gradient(135deg, rgba(45, 27, 78, 0.5) 0%, rgba(168, 153, 104, 0.25) 100%);
+        }
+
+        /* GOLFE'LIA Card */
+        .card-golfe {
+            background: linear-gradient(135deg, rgba(26, 46, 26, 0.5) 0%, rgba(201, 169, 97, 0.25) 100%);
+        }
+
+        /* KORE'LIA Card */
+        .card-kore {
+            background: linear-gradient(135deg, rgba(107, 107, 107, 0.4) 0%, rgba(139, 69, 19, 0.25) 100%);
+        }
+
+        /* ABOUT Section */
+        #about {
+            padding: 6rem 1rem;
+            border-top: 1px solid rgba(232, 230, 224, 0.15);
+        }
+
+        .about-content {
+            max-width: 48rem;
+            margin: 0 auto;
+        }
+
+        .about-content h2 {
+            font-size: 2.25rem;
+            font-weight: 300;
+            margin-bottom: 3rem;
+        }
+
+        .about-text {
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+            font-size: 1.125rem;
+            line-height: 1.8;
+        }
+
+        /* NOW Section */
+        #now {
+            padding: 6rem 1rem;
+            border-top: 1px solid rgba(232, 230, 224, 0.15);
+        }
+
+        .now-content {
+            max-width: 48rem;
+            margin: 0 auto;
+        }
+
+        .now-content h2 {
+            font-size: 2.25rem;
+            font-weight: 300;
+            margin-bottom: 3rem;
+        }
+
+        .now-list {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+            font-size: 1.125rem;
+        }
+
+        .now-list li {
+            display: flex;
+            gap: 1rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid rgba(232, 230, 224, 0.15);
+        }
+
+        .now-list li:last-child {
+            border-bottom: none;
+            padding-bottom: 0;
+        }
+
+        .now-list li span:first-child {
+            color: #8b8983;
+            flex-shrink: 0;
+            padding-top: 0.25rem;
+        }
+
+        /* FOOTER */
+        footer {
+            border-top: 1px solid rgba(232, 230, 224, 0.15);
+            padding: 3rem 1rem;
+        }
+
+        .footer-content {
+            max-width: 1280px;
+            margin: 0 auto;
+        }
+
+        .footer-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 2rem;
+            margin-bottom: 2rem;
+            font-size: 0.875rem;
+        }
+
+        .footer-section {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .footer-label {
+            color: #8b8983;
+            margin-bottom: 0.75rem;
+        }
+
+        .footer-link {
+            color: #e8e6e0;
+            text-decoration: none;
+            transition: opacity 0.3s ease-out;
+        }
+
+        .footer-link:hover {
+            opacity: 0.7;
+        }
+
+        .footer-divider {
+            border-top: 1px solid rgba(232, 230, 224, 0.15);
+            padding-top: 2rem;
+            margin-top: 2rem;
+            text-align: center;
+            color: #8b8983;
+            font-size: 0.75rem;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .three-worlds-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .footer-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- HERO -->
+    <section id="hero" class="opacity-transition opacity-100">
+        <div class="hero-content">
+            <h1>Mind. Life. Body.</h1>
+            <p class="subtitle">すべては、整えることから始まる。</p>
+            <p class="description">
+                LIA Brand Universe — 人生を構造として読み、ゴルフで鍛え、生活を美しく整える。三つの世界が、一人の人間から生まれている。
+            </p>
+        </div>
+    </section>
+
+    <!-- THREE WORLDS -->
+    <section id="three-worlds" class="opacity-transition opacity-100">
+        <div class="three-worlds-grid">
+            <!-- CRONA'LIA Card -->
+            <div class="card card-crona hover-fade">
+                <div class="card-header">
+                    <span class="card-category">Mind</span>
+                    <h2 class="card-title brand-name">CRONA'LIA</h2>
+                </div>
+                <div class="card-content">
+                    <p class="card-subtitle">人生構造観測ログ</p>
+                    <p class="card-description">「あなたの人生には、まだ名前のついていない構造がある。」</p>
+                    <p class="card-note">人生・恋愛・社会・哲学・エントロピーを感情ではなく「構造」として言語化するライティングシリーズ</p>
+                </div>
+                <div class="card-footer">
+                    <a href="https://note.com/crona_lia" target="_blank" rel="noopener noreferrer" class="card-link">note（CRONA'LIA） →</a>
+                </div>
+            </div>
+
+            <!-- GOLFE'LIA Card -->
+            <div class="card card-golfe hover-fade">
+                <div class="card-header">
+                    <span class="card-category">Life</span>
+                    <h2 class="card-title brand-name">GOLFE'LIA</h2>
+                </div>
+                <div class="card-content">
+                    <p class="card-subtitle">ゴルフ教育</p>
+                    <p class="card-description">「ゴルフの美しさは、再現性の中にある。」</p>
+                    <p class="card-note">中級ゴルファー向けの文学的ゴルフ教育シリーズ。詩的な文体×戦略的分析という独自スタイル</p>
+                </div>
+                <div class="card-footer">
+                    <a href="https://note.com/golfelia_" target="_blank" rel="noopener noreferrer" class="card-link">note（GOLFE'LIA） →</a>
+                </div>
+            </div>
+
+            <!-- KORE'LIA Card -->
+            <div class="card card-kore hover-fade">
+                <div class="card-header">
+                    <span class="card-category">Body</span>
+                    <h2 class="card-title brand-name">KORE'LIA</h2>
+                </div>
+                <div class="card-content">
+                    <p class="card-subtitle">美容・整える生活</p>
+                    <p class="card-description">「手元は、結果が現れる場所。」</p>
+                    <p class="card-note">朝専用プライベートネイルサロン（北参道）＋美容セラム・スキンケアのオンライン展開</p>
+                </div>
+                <div class="card-footer">
+                    <a href="https://irogokoro.com" target="_blank" rel="noopener noreferrer" class="card-link">ネイル予約 →</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ABOUT -->
+    <section id="about" class="opacity-transition opacity-100">
+        <div class="about-content">
+            <h2 class="brand-name">LIAとは</h2>
+            <div class="about-text">
+                <p>
+                    私はゴルフを教え、爪を整え、人生の構造を書いている。三つのことをしているように見えて、やっていることは一つだ。自分の人生を、観測すること。
+                </p>
+                <p>
+                    CRONA'LIAで書き、GOLFE'LIAで動き、KORE'LIAで整える。それがLIAという人間の、生活の全体です。
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- NOW -->
+    <section id="now" class="opacity-transition opacity-100">
+        <div class="now-content">
+            <h2 class="brand-name">今、動いていること</h2>
+            <ul class="now-list">
+                <li>
+                    <span>—</span>
+                    <span>CRONA'LIA Season 2、5月31日より開放</span>
+                </li>
+                <li>
+                    <span>—</span>
+                    <span>エントロピーシリーズ、6月より水曜連載開始</span>
+                </li>
+                <li>
+                    <span>—</span>
+                    <span>KORE'LIA コンテンツ、6月ローンチ予定</span>
+                </li>
+                <li>
+                    <span>—</span>
+                    <span>GOLFE'LIA Season 2、公開中</span>
+                </li>
+            </ul>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer>
+        <div class="footer-content">
+            <div class="footer-grid">
+                <!-- Left -->
+                <div class="footer-section">
+                    <p style="color: #8b8983;">LIA Brand Universe</p>
+                </div>
+
+                <!-- Center -->
+                <div class="footer-section">
+                    <p class="footer-label">Links</p>
+                    <a href="https://note.com/crona_lia" target="_blank" rel="noopener noreferrer" class="footer-link">note（CRONA'LIA）</a>
+                    <a href="https://note.com/golfelia_" target="_blank" rel="noopener noreferrer" class="footer-link">note（GOLFE'LIA）</a>
+                </div>
+
+                <!-- Right -->
+                <div class="footer-section">
+                    <p class="footer-label">Follow</p>
+                    <a href="#" class="footer-link">Instagram</a>
+                </div>
+            </div>
+
+            <div class="footer-divider">
+                <p>© LIA Brand Universe</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Intersection Observer for fade-in animations
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach((entry) => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.remove('opacity-0');
+                    entry.target.classList.add('opacity-100');
+                }
+            });
+        }, observerOptions);
+
+        // Observe all sections
+        document.querySelectorAll('section').forEach((section) => {
+            observer.observe(section);
+        });
+    </script>
+</body>
+</html>
